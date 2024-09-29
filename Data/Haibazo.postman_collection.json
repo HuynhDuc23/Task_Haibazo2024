@@ -1,0 +1,261 @@
+{
+	"info": {
+		"_postman_id": "a7cf9d60-c437-4a70-a1e2-7cab5dd6b3fe",
+		"name": "Haibazo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30344344"
+	},
+	"item": [
+		{
+			"name": "Haibazo",
+			"item": [
+				{
+					"name": "category",
+					"item": [
+						{
+							"name": "categoris",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://haibazo-production.up.railway.app/api/v1/categories/",
+									"protocol": "https",
+									"host": [
+										"haibazo-production",
+										"up",
+										"railway",
+										"app"
+									],
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "color",
+					"item": [
+						{
+							"name": "colors",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://haibazo-production.up.railway.app/api/v1/colors/",
+									"protocol": "https",
+									"host": [
+										"haibazo-production",
+										"up",
+										"railway",
+										"app"
+									],
+									"path": [
+										"api",
+										"v1",
+										"colors",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "size",
+					"item": [
+						{
+							"name": "sizes",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://haibazo-production.up.railway.app/api/v1/sizes/",
+									"protocol": "https",
+									"host": [
+										"haibazo-production",
+										"up",
+										"railway",
+										"app"
+									],
+									"path": [
+										"api",
+										"v1",
+										"sizes",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "style",
+					"item": [
+						{
+							"name": "styles",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://haibazo-production.up.railway.app/api/v1/styles/",
+									"protocol": "https",
+									"host": [
+										"haibazo-production",
+										"up",
+										"railway",
+										"app"
+									],
+									"path": [
+										"api",
+										"v1",
+										"styles",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "product",
+					"item": [
+						{
+							"name": "products",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://haibazo-production.up.railway.app/api/v1/products/",
+									"protocol": "https",
+									"host": [
+										"haibazo-production",
+										"up",
+										"railway",
+										"app"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "productsId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://haibazo-production.up.railway.app/api/v1/products/1",
+									"protocol": "https",
+									"host": [
+										"haibazo-production",
+										"up",
+										"railway",
+										"app"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "filter-sort-paging",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/products/search?sort=price,desc",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"search"
+									],
+									"query": [
+										{
+											"key": "minPrice",
+											"value": "10",
+											"disabled": true
+										},
+										{
+											"key": "maxPrice",
+											"value": "25",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "0",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "price,desc"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "price",
+					"item": [
+						{
+							"name": "price-min-max",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://haibazo-production.up.railway.app/api/v1/products/price-range",
+									"protocol": "https",
+									"host": [
+										"haibazo-production",
+										"up",
+										"railway",
+										"app"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"price-range"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
