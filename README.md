@@ -1,4 +1,4 @@
-# PROJECT HAIBAZO
+# PROJECT HAIBAZO - OVER VIEW
 
 ## Directory structure
 ![image](https://github.com/user-attachments/assets/c5d585fe-03b2-4770-997a-3c6d389b3068)
@@ -7,7 +7,7 @@
 
 ![image](https://github.com/user-attachments/assets/aeed1f83-51f5-4dcd-a5c8-aee13acc2821)
 
-### List of all haibazo apis 
+## List of all haibazo apis 
 ```
 https://haibazo-production.up.railway.app/api/v1/products/
 ```
