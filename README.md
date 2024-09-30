@@ -12,6 +12,8 @@
 https://haibazo-production.up.railway.app/api/v1/products/
 ```
 ![image](https://github.com/user-attachments/assets/cf4cc4c2-65bf-454a-b689-85b3bcf988ed)
+![image](https://github.com/user-attachments/assets/481c81f8-611a-4405-92cb-6f2af9ab87e5)
+
 
 This API is responsible for retrieving all products
 ```
