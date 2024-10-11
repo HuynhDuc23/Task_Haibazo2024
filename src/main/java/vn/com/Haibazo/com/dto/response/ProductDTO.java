@@ -1,8 +1,9 @@
 package vn.com.Haibazo.com.dto.response;
 
-import java.util.Date;
-import java.util.List;
+import lombok.Builder;
 
+import java.util.Date;
+@Builder
 public class ProductDTO {
     private int id;
     private String name;
@@ -13,10 +14,11 @@ public class ProductDTO {
     private Date saleEndDate;
     private double discount;
     private String image;
+    private String category ;
 
     // Constructor
     public ProductDTO(int id, String name, String description, double averageStars,
-                      double price, int view, Date saleEndDate, double discount, String image) {
+                      double price, int view, Date saleEndDate, double discount, String image , String category) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -26,6 +28,11 @@ public class ProductDTO {
         this.saleEndDate = saleEndDate;
         this.discount = discount;
         this.image = image;
+        this.category = category;
+    }
+
+    public ProductDTO() {
+
     }
 
 
@@ -99,5 +106,13 @@ public class ProductDTO {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

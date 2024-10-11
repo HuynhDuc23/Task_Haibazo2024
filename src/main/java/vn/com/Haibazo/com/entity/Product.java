@@ -2,6 +2,9 @@ package vn.com.Haibazo.com.entity;
 
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.*;
 
 @Entity
@@ -9,7 +12,10 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id ;
+    @NotNull
+    @Size(min = 2)
     private String name ;
+    @NotNull
     private String description ;
     private double average_stars ;
     private double price ;
@@ -23,7 +29,7 @@ public class Product {
     @JoinColumn(name = "category_id")
     @JsonIgnore
     private Category category;
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
     private List<ProductImage> images = new ArrayList<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
@@ -154,10 +160,10 @@ public class Product {
                 ", saleEndDate=" + saleEndDate +
                 ", discount=" + discount +
                 ", image='" + image + '\'' +
-                ", category=" + category +
-                ", images=" + images +
-                ", productColorSizes=" + productColorSizes +
-                ", styles=" + styles +
+               // ", category=" + category.getName()+
+               // ", images=" + images +
+               // ", productColorSizes=" + productColorSizes +
+               // ", styles=" + styles +
                 '}';
     }
 }

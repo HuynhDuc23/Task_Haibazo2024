@@ -1,6 +1,7 @@
 package vn.com.Haibazo.com.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id ;
     @Column(nullable = false)
+    @NotNull
     private String name ;
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products = new ArrayList<>();
@@ -43,8 +45,8 @@ public class Category {
     public String toString() {
         return "Category{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", products=" + products +
-                '}';
+                ", name='" + name + '\''; //+
+//                ", products=" + products +
+//                '}';
     }
 }

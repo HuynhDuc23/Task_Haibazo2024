@@ -1,6 +1,7 @@
 package vn.com.Haibazo.com.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +12,7 @@ public class Color {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id ;
     @Column(nullable = false)
+    @NotNull
     private String name ;
     @OneToMany(mappedBy = "color", cascade = CascadeType.ALL)
     private Set<ProductColorSize> productColorSizes = new HashSet<>();

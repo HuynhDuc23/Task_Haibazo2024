@@ -1,4 +1,5 @@
 package vn.com.Haibazo.com.controller;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -8,8 +9,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vn.com.Haibazo.com.dto.request.CreateProductRequest;
 import vn.com.Haibazo.com.dto.response.*;
 import vn.com.Haibazo.com.entity.Product;
+import vn.com.Haibazo.com.enums.ApiError;
 import vn.com.Haibazo.com.service.services.ProductService;
 import vn.com.Haibazo.com.specification.ProductSpecification;
 
@@ -32,8 +35,6 @@ public class ProductController {
         ApiCustomize<List<ProductResponse>> products = this.productService.products();
         // Set headers
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Custom-Header", "Value"); // Add your custom headers here
-
         return new ResponseEntity<>(products, headers, HttpStatus.OK);
     }
 
@@ -55,15 +56,17 @@ public class ProductController {
             @RequestParam(required = false) Date saleEndDate,
             @RequestParam(required = false) String categoryName,
             @RequestParam(required = false) String styleName,
+            @RequestParam(required = false) String Size,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "12") int size) {
+            @RequestParam(defaultValue = "16") int size) {
         Specification<Product> spec = Specification.where(ProductSpecification.withName(name))
                 .and(ProductSpecification.withMinPrice(minPrice))
                 .and(ProductSpecification.withMaxPrice(maxPrice))
                 .and(ProductSpecification.withMinStars(minStars))
                 .and(ProductSpecification.withSaleEndDate(saleEndDate))
                 .and(ProductSpecification.withCategory(categoryName))
-                .and(ProductSpecification.withStyle(styleName));
+                .and(ProductSpecification.withStyle(styleName))
+                .and(ProductSpecification.withSize(Size));
         Pageable pageable = PageRequest.of(page, size);
         Page<Product> productPage = productService.findAll(spec,pageable);
         // Chuyển đổi sang DTO
@@ -76,16 +79,11 @@ public class ProductController {
                 product.getView(),
                 product.getSaleEndDate(),
                 product.getDiscount(),
-                product.getImage()
-
+                product.getImage(),
+                product.getCategory().getName()
         ));
-
-        // Tạo đối tượng ApiCustomize cho phản hồi
         ApiCustomize<Page<ProductDTO>> apiCustomize = new ApiCustomize<>();
         apiCustomize.setResult(productDTOPage);
-//        apiCustomize.setTotalCount(productDTOPage.getTotalElements());
-//        apiCustomize.setPageSize(productDTOPage.getSize());
-//        apiCustomize.setCurrentPage(productDTOPage.getNumber());
         return ResponseEntity.ok(apiCustomize);
     }
     @GetMapping("/price-range")
@@ -96,10 +94,19 @@ public class ProductController {
         priceResponse.setPriceMin(productPriceMin.getPrice());
         priceResponse.setPriceMax(productPriceMax.getPrice());
         ApiCustomize<PriceResponse> apiCustomize = new ApiCustomize<>();
-        apiCustomize.setCode("1000");
+        apiCustomize.setCode("200");
         apiCustomize.setResult(priceResponse);
         apiCustomize.setMessage("Successfully retrieved price range");
         return ResponseEntity.ok(apiCustomize);
+    }
+    @PostMapping("/create")
+    public ResponseEntity<ApiCustomize<ProductDTO>> createProduct(@RequestBody @Valid CreateProductRequest request){
+           ProductDTO productDTO =  this.productService.createProduct(request);
+           ApiCustomize<ProductDTO> apiCustomize = new ApiCustomize() ;
+           apiCustomize.setCode(HttpStatus.CREATED.name());
+           apiCustomize.setMessage(ApiError.CREATED.getMessage());
+           apiCustomize.setResult(productDTO);
+           return ResponseEntity.ok(apiCustomize);
     }
 
 }

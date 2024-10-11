@@ -1,10 +1,9 @@
 package vn.com.Haibazo.com.specification;
-
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 import vn.com.Haibazo.com.entity.Product;
 import vn.com.Haibazo.com.entity.Category;
+import vn.com.Haibazo.com.entity.ProductColorSize;
 import vn.com.Haibazo.com.entity.Style;
 import java.util.Date;
 
@@ -57,6 +56,15 @@ public class ProductSpecification {
             }
             Join<Product, Style> styleJoin = root.join("styles", JoinType.INNER);
             return criteriaBuilder.equal(styleJoin.get("name"), styleName);
+        };
+    }
+    public static Specification<Product> withSize(String size) {
+        return (root, query, criteriaBuilder) -> {
+            if (size == null) {
+                return null;
+            }
+            Join<Product, ProductColorSize> sizeJoin = root.join("productColorSizes", JoinType.INNER);
+            return criteriaBuilder.equal(sizeJoin.get("size").get("name"), size);
         };
     }
 }

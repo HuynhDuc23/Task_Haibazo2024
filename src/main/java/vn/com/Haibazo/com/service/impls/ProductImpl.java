@@ -6,11 +6,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import vn.com.Haibazo.com.dto.request.CreateProductRequest;
 import vn.com.Haibazo.com.dto.response.*;
+import vn.com.Haibazo.com.entity.*;
 import vn.com.Haibazo.com.entity.Color;
-import vn.com.Haibazo.com.entity.Product;
-import vn.com.Haibazo.com.entity.ProductImage;
-import vn.com.Haibazo.com.entity.Size;
 import vn.com.Haibazo.com.enums.ApiError;
 import vn.com.Haibazo.com.exception.ErrorCode;
 import vn.com.Haibazo.com.exception.ProductNotFound;
@@ -31,13 +30,14 @@ public class ProductImpl implements ProductService {
     private ColorRepository colorRepository ;
     private ProductImageRepository productImageRepository;
     private SizeRepository sizeRepository;
-
+    private CategoryRepository categoryRepository;
     @Autowired
-    public ProductImpl(ProductRepository productRepository , ColorRepository colorRepository , StyleRepository styleRepository,SizeRepository sizeRepository , ProductImageRepository productImageRepository) {
+    public ProductImpl(ProductRepository productRepository , ColorRepository colorRepository , StyleRepository styleRepository,SizeRepository sizeRepository , ProductImageRepository productImageRepository , CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.colorRepository = colorRepository ;
         this.productImageRepository = productImageRepository;
         this.sizeRepository = sizeRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -74,6 +74,9 @@ public class ProductImpl implements ProductService {
     @Override
     public ApiCustomize<ProductDetailResponse> product(int id) {
          Product product = this.productRepository.findById(id).orElseThrow(()->  new ProductNotFound(ErrorCode.PRODUCT_NOT_FOUND));;
+        // String nameCategory = product.getCategory().getName();
+        //System.out.println(nameCategory);
+        //System.out.println(product.getCategory().getName().toString());
          List<Color> colors = this.colorRepository.findAll();
          List<Size> sizes = this.sizeRepository.findAll();
          List<ProductImage> images = this.productImageRepository.findAllImagesByProductId(id);
@@ -138,6 +141,38 @@ public class ProductImpl implements ProductService {
         return entityManager.createQuery("SELECT p FROM Product p ORDER BY p.price DESC", Product.class)
                 .setMaxResults(1)
                 .getSingleResult();
+    }
+
+    @Override
+    public ProductDTO createProduct(CreateProductRequest product) {
+        Product productData = new Product();
+        productData.setView(product.getView());
+        productData.setDiscount(product.getDiscount());
+        productData.setImage(product.getImage());
+        productData.setDescription(product.getDescription());
+        productData.setName(product.getName());
+        productData.setAverage_stars(product.getAvarage_stars());
+        Category category = categoryRepository.findById(product.getId()).orElseThrow(()-> new RuntimeException("Cant not find Category"));
+        if(category!=null){
+            productData.setCategory(category);
+        }
+        Product product1 = this.productRepository.save(productData);
+        return ProductChangeProductDTO(product1);
+    }
+
+    public static ProductDTO ProductChangeProductDTO(Product product){
+        return new ProductDTO().builder()
+                .name(product.getName())
+                .price(product.getPrice())
+                .view(product.getView())
+                .averageStars(product.getAverage_stars())
+                .category(product.getCategory().getName())
+                .description(product.getDescription())
+                .id(product.getId())
+                .discount(product.getDiscount())
+                .image(product.getImage())
+                .saleEndDate(null)
+                .build();
     }
 
 
