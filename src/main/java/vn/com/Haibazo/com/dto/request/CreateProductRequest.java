@@ -4,16 +4,18 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import vn.com.Haibazo.com.validator.DoubleValidator;
+import vn.com.Haibazo.com.validator.ValidString;
 
 public class CreateProductRequest {
-//    @NotNull
-//    @Min(value = 1, message = "AVARAGE_STARS")
-//    @Max(value = 5, message = "AVARAGE_STARS")
-    @DoubleValidator
+    @NotNull
+    @Min(value = 1, message = "AVARAGE_STARS")
+    @Max(value = 5, message = "AVARAGE_STARS")
     private double  avarage_stars ;
     private String description ;
     private double discount ;
     private String image ;
+    @NotNull
+    @ValidString(message = "FIELD_")
     private String name ;
     private double price ;
     private int view ;

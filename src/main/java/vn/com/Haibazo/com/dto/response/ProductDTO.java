@@ -1,8 +1,10 @@
 package vn.com.Haibazo.com.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 
 import java.util.Date;
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
 public class ProductDTO {
     private int id;

@@ -8,15 +8,18 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import vn.com.Haibazo.com.dto.request.CreateProductRequest;
 import vn.com.Haibazo.com.dto.response.*;
 import vn.com.Haibazo.com.entity.Product;
 import vn.com.Haibazo.com.enums.ApiError;
+import vn.com.Haibazo.com.exception.ErrorCode;
 import vn.com.Haibazo.com.service.services.ProductService;
 import vn.com.Haibazo.com.specification.ProductSpecification;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -100,7 +103,22 @@ public class ProductController {
         return ResponseEntity.ok(apiCustomize);
     }
     @PostMapping("/create")
-    public ResponseEntity<ApiCustomize<ProductDTO>> createProduct(@RequestBody @Valid CreateProductRequest request){
+    public ResponseEntity<ApiCustomize<?>> createProduct(@RequestBody @Valid CreateProductRequest request , BindingResult bindingResult){
+           if(bindingResult.hasErrors()){
+               StringBuilder stringBuilder = new StringBuilder();
+               bindingResult.getAllErrors().forEach(err->stringBuilder.append(err.getDefaultMessage() + " "));
+               String convertStringBuilderToString = stringBuilder.toString() ;
+               String[] arrErr = convertStringBuilderToString.split(" ");
+               ArrayList<String> data = new ArrayList<>();
+               for(String err : arrErr ){
+                   data.add(ErrorCode.valueOf(err).getMessage());
+               }
+               ApiCustomize apiCustomize = new ApiCustomize();
+               apiCustomize.setCode(ApiError.BAD_REQUEST.getCode());
+               apiCustomize.setMessage("lists err");
+               apiCustomize.setResult(data);
+               return ResponseEntity.badRequest().body(apiCustomize);
+           }
            ProductDTO productDTO =  this.productService.createProduct(request);
            ApiCustomize<ProductDTO> apiCustomize = new ApiCustomize() ;
            apiCustomize.setCode(HttpStatus.CREATED.name());
